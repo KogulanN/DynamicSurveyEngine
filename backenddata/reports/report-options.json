@@ -1,0 +1,34 @@
+{
+    "reportTypesOptions": [
+      { "value": "1", "label": "Total Enrollment by Demonstration Year Report" },
+      { "value": "2", "label": "Status of Enrollment per Location - Rollup" },
+      { "value": "3", "label": "Status of Enrollment per Location - Detail" },
+      { "value": "4", "label": "Insurance Status - Rollup" },
+      { "value": "5", "label": "Insurance Status by Location  - Rollup" },
+      { "value": "6", "label": "Insurance Status by Location  -  Detail" },
+      { "value": "7", "label": "BMI Screening - Rollup" },
+      { "value": "8", "label": "BMI Screening - Detail" },
+      { "value": "9", "label": "Blood Pressure Screening - Rollup" },
+      { "value": "10", "label": "Blood Pressure Screening - Detail" },
+      { "value": "11", "label": "Flu Screenings - Rollup" },
+      { "value": "12", "label": "Flu Screenings - Detail" },
+      { "value": "13", "label": "Follow-Up Summary" },
+      { "value": "14", "label": "New Participants - Big Texts" },
+      { "value": "15", "label": "Incremental Data Export - Current DY" },
+      { "value": "16", "label": "Full Data Export" }
+    ],
+    "demonstrationYearFilter": [
+      { "value": "DY6", "label": "DY6" },
+      { "value": "DY5", "label": "DY5" },
+      { "value": "DY4", "label": "DY4" },
+      { "value": "DY3", "label": "DY3" },
+      { "value": "DY7/FY18", "label": "DY7/FY18" },
+      { "value": "FY19", "label": "FY19" },
+      { "value": "FY20", "label": "FY20" }
+    ],
+    "otherOptions": [
+      { "value": "option1", "label": "Option 1" },
+      { "value": "option2", "label": "Option 2" }
+    ]
+  }
+  

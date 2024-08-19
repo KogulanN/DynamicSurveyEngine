@@ -1,0 +1,21 @@
+{
+    "messageTemplates": [
+      {
+        "id": "template1",
+        "templateName": "New email for One-Time Passcode",
+        "status": "Active",
+        "receiver": "{User}",
+        "subject": "Your one-time passcode for UTHealth RESPOND Portal",
+        "content": "Hello {email address provided},\n\nPlease use this one-time passcode to log into the UTHealth RESPOND Portal:\n{6-digit code}\n\nThis one-time passcode expires in 30 minutes.\n\nThank you,\nRespondHealth Client Support\n\nThe information in this message is confidential and intended exclusively for the addressee. Use of this information by anyone other than the recipient is forbidden. If you receive this message improperly, you are requested not to use the content and immediately inform the sender by returning the message and then deleting it. Disclosure, multiplication, distribution and/or disclosure of information received in the e-mail to third parties is not permitted. The UMC Utrecht, its staff and/or its affiliated companies can not accept liability for any incorrectness and/or incompleteness of the information provided."
+      },
+      {
+        "id": "template2",
+        "templateName": "New Account Email",
+        "status": "Active",
+        "receiver": "{User}",
+        "subject": "New User Account for UTHealth RESPOND Portal",
+        "content": "A new user account has been created within the UTHealth RESPOND Portal.\n\nTo log in and set your password, please click here.\n\nIf the hyperlink above does not work, please copy and paste the URL below into a new browser window:\n{Password Reset Link}\n\nIf you have any issues setting your new password, please email client.support@respondhealth.net.\n\nThank you,"
+      }
+    ]
+  }
+  

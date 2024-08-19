@@ -1,0 +1,551 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+
+* {
+  font-family: 'Inter', sans-serif;
+  font-weight: 500;
+}
+
+:root {
+  --size-xs: 20%;
+  --size-s: 30%;
+  --size-m: 40%;
+  --size-l: 50%;
+  --size-xl: 60%;
+  --size-xxl: 80%;
+  --size-xxxl: 90%;
+  --column-gap: 10px; /* Minimal gap */
+  --row-gap: 15px; /* Gap between rows */
+
+  --min-width-xs: 30px;
+  --min-width-s: 50px;
+  --min-width-m: 100px;
+  --min-width-l: 150px;
+  --min-width-xl: 200px;
+  --min-width-xxl: 300px;
+  --min-width-xxxl: 350px;
+}
+
+/* Mobile screens */
+@media (max-width: 767px) {
+  :root {
+    --size-xs: 35%;
+    --size-s: 40%;
+    --size-m: 45%;
+    --size-l: 50%;
+    --size-xl: 60%;
+    --size-xxl: 100%;
+    --size-xxxl: 100%;
+    --column-gap: 20px; /* Minimal gap */
+    --row-gap: 20px; /* Increased row gap for smaller screens */
+  }
+
+  .question-inline {
+    display: inline-flex;
+    align-items: center;
+    justify-content: flex-end;
+    width: 100%;
+    margin-right: 10px;
+    margin-bottom: 20px;
+  }
+
+  .question-block {
+    display: block;
+    margin-bottom: 10px;
+  }
+}
+
+/* Tablet and small laptop screens */
+@media (min-width: 768px) and (max-width: 1023px) {
+  :root {
+    --size-xs: 15%;
+    --size-s: 25%;
+    --size-m: 30%;
+    --size-l: 50%;
+    --size-xl: 60%;
+    --size-xxl: 70%;
+    --size-xxxl: 70%;
+    --column-gap: 60px; /* Increased column gap */
+    --row-gap: 50px; /* Consistent row gap */
+  
+  }
+
+  .question-inline {
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+  .form-input{
+    min-width: 200px;
+  }
+}
+
+/* Laptops and desktops */
+@media (min-width: 1024px) and (max-width: 1439px) {
+  :root {
+    --size-xs: 15%;
+    --size-s: 20%;
+    --size-m: 30%;
+    --size-l: 40%;
+    --size-xl: 50%;
+    --size-xxl: 70%;
+    --size-xxxl: 95%;
+    --column-gap: 20px; /* Minimal gap */
+    --row-gap: 20px; /* Consistent row gap */
+  }
+
+  .question-inline {
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+}
+
+/* Big desktop screens */
+@media (min-width: 1440px) {
+  :root {
+    --size-xs: 10%;
+    --size-s: 15%;
+    --size-m: 20%;
+    --size-l: 35%;
+    --size-xl: 60%;
+    --size-xxl: 70%;
+    --size-xxxl: 90%;
+    --column-gap: 5px; /* Minimal gap */
+    --row-gap: 20px; /* Consistent row gap */
+  }
+
+  .question-inline {
+    display: inline-flex;
+    margin-bottom: 20px;
+  }
+}
+
+.dynamic-form-section {
+  background: #e5e3e3;
+  padding: 15px;
+}
+
+.form-section {
+  padding: 10px;
+  margin-bottom: 20px;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+.section-title {
+  font-size: 16px;
+  margin-bottom: 10px;
+  background-color: #4472c4;
+  color: white;
+  padding: 10px;
+}
+
+.form-group {
+  padding: 10px;
+  border-radius: 8px;
+  flex-wrap: wrap;
+}
+
+.group-header {
+  margin-bottom: 10px;
+}
+
+.row {
+  display: grid;
+  width: 100%;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: var(--row-gap) var(--column-gap); /* Apply row and column gaps */
+  align-items: start; /* Align items to the start to avoid overlapping */
+}
+
+.row.one-column {
+  grid-template-columns: 1fr;
+  max-width: 95%;
+}
+
+.row.two-column {
+  grid-template-columns: repeat(2, 1fr);
+  max-width: 100%;
+}
+
+.row.two-columns {
+  grid-template-columns: repeat(3, 1fr);
+  max-width: 95%;
+}
+
+.row.three-columns {
+  grid-template-columns: repeat(4, 0.2fr);
+  max-width: 95%;
+}
+
+.row.four-columns {
+  grid-template-columns: repeat(5, 1fr);
+  max-width: 95%;
+}
+
+.row.five-columns {
+  grid-template-columns: repeat(6, 0.5fr);
+  max-width: 90%;
+}
+
+.row.full-width {
+  grid-template-columns: 1fr;
+}
+
+.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%; /* Make sure the column takes up the full height of the row */
+}
+
+.column label {
+  align-self: flex-end; /* Align labels at the top */
+}
+
+.column .form-input {
+  align-self: start; /* Align inputs at the top by default */
+  margin-top: auto; /* Align inputs at the bottom by default */
+}
+
+.question-inline {
+  display: inline-flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
+
+.question-inline label {
+  margin-right: 10px;
+  white-space: nowrap;
+}
+
+.question-block {
+  display: block;
+  margin-bottom: 10px;
+}
+
+.form-buttons {
+  display: flex;
+  justify-content: flex-start; /* Use flex-start instead of start */
+  margin-top: 10px;
+}
+
+.form-buttons .button {
+  margin: 5px;
+  padding: 7px 40px;
+  font-size: 16px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.form-buttons .button:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.form-buttons .button:not(:disabled) {
+  background-color: #4472c4;
+  color: white;
+}
+
+.form-buttons .button.prev,
+.form-buttons .button.save,
+.form-buttons .button.submit {
+  background-color: #4472c4;
+}
+
+.form-buttons .button.cancel {
+  background-color: #FEFEFE;
+  color: black;
+}
+
+.form-input {
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 14px;
+  width: 100%;
+  max-width: 300px;  /* Set a maximum width to avoid stretching */
+  min-width: var(--min-width-xs); /* Set a minimum width */
+  align-items: baseline;
+  margin-bottom:10px;
+}
+
+.textdisable-input {
+  background-color: #f0f0f0; /* Gray background */
+  color: #474646; /* Text color */
+  cursor: not-allowed; /* Change cursor to indicate non-editable */
+}
+
+.radio-option {
+  display: inline-flex;
+  align-items: center;
+  margin-right: 20px; /* Adjust as needed for spacing */
+}
+
+.radio-option input[type="radio"] {
+  margin-right: 8px; /* Adjust as needed for spacing between radio button and label */
+}
+
+/* Radio-multiline */
+.radio-multiline {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px; /* Adjust as necessary */
+}
+
+.radio-multiline-option {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  gap: 2px;
+}
+
+.radio-multiline-option input[type="radio"] {
+  margin-right: 10px; /* Add margin to the right of the radio button */
+}
+
+.radio-multiline-option input[type="text"] {
+  margin-left: 10px;
+  flex-grow: 1;
+}
+
+.radio-multiline-option.block {
+  flex-direction: column;
+}
+
+.radio-multiline-option.inline {
+  flex-direction: row;
+  align-items: center;
+}
+
+.radio-label {
+  margin-left: 5px;
+}
+
+/*Other input */
+.other-input {
+  margin-left: 10px;
+  margin-top: 10px;
+}
+
+.error-message {
+  color: red;
+  font-size: smaller;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.required {
+  color: red;
+}
+
+/* Styles for tick/cross icons */
+.iconGreen {
+  color: white;
+  background: green;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+.iconRed {
+  color: white;
+  background: red;
+  padding: 2px;
+  border-radius: 4px;
+}
+
+/* Tick icon styles */
+.tick {
+  display: inline-block; /* Ensure inline-block to align with other inline elements */
+  vertical-align: middle; /* Align vertically with adjacent text */
+  margin-right: 10px; /* Adjust margin as needed */
+}
+
+.question-container.column {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;  /* Ensure full height for proper alignment */
+}
+
+.question-container label {
+  align-self: flex-start;  /* Align the label at the top */
+  margin-bottom: 8px;  /* Add space between label and input */
+}
+
+/* Adjust alignment for inputs with empty question text */
+.column .empty-question .form-input {
+  align-self: flex-end; /* Align the input at the bottom if the question text is empty */
+  margin-left: 100px;
+}
+
+.question-container {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 5px; /* Add a margin at the bottom of each question container */
+}
+
+.label-regular {
+  font-weight: 500;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.label-bold {
+  font-weight: bold;
+  margin-top: 5px;
+  margin-bottom: 5px;
+}
+
+.label-semibold {
+  font-weight: 600;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
+
+.time-picker-container {
+  display: flex;
+  align-items: center;
+}
+
+.form-input {
+  width: 100%;
+}
+
+.react-time-picker__wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  width: 100%;
+}
+
+.react-time-picker__inputGroup__input {
+  border: none;
+  text-align: center;
+  padding: 5px;
+  width: 100%;
+}
+
+.react-time-picker__inputGroup__divider {
+  margin: 0 5px;
+}
+
+.react-time-picker__clock {
+  margin-left: 10px;
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  width: 100%;
+}
+
+.slider-label {
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.slider-scale {
+  display: flex;
+  align-items: center;
+  width: 80%;
+  margin-bottom: 10px;
+}
+
+.slider-scale span {
+  flex: 1;
+  text-align: center;
+}
+
+.slider-input {
+  flex: 10;
+  -webkit-appearance: none;
+  appearance: none;
+  width: 100%;
+  height: 10px;
+  background: linear-gradient(to right, red, green);
+  outline: none;
+  opacity: 0.7;
+  -webkit-transition: .2s;
+  transition: opacity .2s;
+  border-radius: 3;
+}
+
+.slider-input:hover {
+  opacity: 1;
+}
+
+.slider-legend {
+  display: flex;
+  justify-content: start;
+  width: 80%;
+  margin-top: 10px;
+}
+
+.slider-legend span {
+  flex: 1;
+  text-align: center;
+}
+
+.modal {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  position: fixed; /* Use fixed to cover the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+  z-index: 1000; /* Ensure it appears above other content */
+}
+
+.modal-content {
+  background: white;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+  width: 40%;
+  max-width: 600px; /* Set a max width for better responsiveness */
+}
+
+.modal-header {
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #829286; /* Dark background */
+  color: white; /* White text */
+  padding: 10px;
+  width: 50%;
+  font-style: normal;
+  font-weight: lighter;
+  border-radius: 8px; /* Rounded corners for the top */
+}
+
+.modal-button {
+  background-color: #ff0000; /* Red background */
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-top: 10px; /* Margin for separation from the scanner */
+}
+
+.scanner-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 50%;
+  width: 50%;
+  margin: 100px;
+}
