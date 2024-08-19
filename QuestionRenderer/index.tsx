@@ -6,7 +6,7 @@ import "../FormLayout.css";
 import moment from 'moment';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'; // PDF Viewer styles
-import BusinessRuleHandler from '@/components/DynamicFormGeneratorPackage/BusinessRuleHandler';
+import BusinessRuleHandler from '../BusinessRuleHandler';
 
 
 

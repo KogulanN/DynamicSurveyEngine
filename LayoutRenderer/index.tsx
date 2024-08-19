@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import GroupRenderer from '../GroupRenderer';
 import '../FormLayout.css';
 import axios from 'axios';
-import preprocessdata from '@/data/backenddata/surveys/responses.json'
+import preprocessdata from '../backenddata/surveys/responses.json'
 
 interface LayoutRendererProps {
   layout: any[];
