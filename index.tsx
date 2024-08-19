@@ -1,3 +1,5 @@
+//ts-ignore
+
 import React, { useEffect, useState } from 'react';
 import LayoutRenderer from './LayoutRenderer';
 import BusinessRuleHandler from './BusinessRuleHandler';
