@@ -1,6 +1,6 @@
 {
   "name": "dynamic-survey-engine",
-  "version": "1.0.5",
+  "version": "1.0.7",
   "description": "Dynamic Survey Engine",
   "main": "index.tsx",
   "scripts": {
@@ -10,7 +10,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/YourUsername/DynamicSurveyEngine.git"
+    "url": "git+https://github.com/KogulanN/DynamicSurveyEngine.git"
   },
   "author": "",
   "license": "ISC",
