@@ -98,12 +98,11 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, question_
 
         return acc + (isConditionMet ? 1 : 0);
       }, 0);
-      console.log("Count",count)
       return count >= 3 ? 'DPPSCRSEC03Q006' : 'DPPSCRSEC03Q007'; // Returns the question ID to show
     }
 
     const result = evaluateEligibility(formData);
-    console.log("result",result)
+   // console.log("result",result)
     setVisible(result === question.question_id);
 
   }, [dependencies, formData, question]);

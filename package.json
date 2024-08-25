@@ -1,8 +1,9 @@
 {
-  "name": "dynamic-survey-engine",
-  "version": "1.0.8",
+  "name": "@pker/dynamic-survey-engine",
+  "version": "1.0.11",
   "description": "Dynamic Survey Engine",
-  "main": "index.tsx",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "start": "npm run build && node ./dist/index.js",
@@ -10,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/KogulanN/DynamicSurveyEngine.git"
+    "url": "git+https://github.com/userName/DynamicSurveyEngine.git"
   },
   "author": "",
   "license": "ISC",

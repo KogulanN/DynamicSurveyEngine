@@ -4,7 +4,7 @@ import React, { useEffect, useState } from 'react';
 import LayoutRenderer from './LayoutRenderer';
 import BusinessRuleHandler from './BusinessRuleHandler';
 import axios from 'axios';
-import data from './backenddata/surveys/surveys.json';
+import data from './dist/backenddata/surveys/surveys.json';
 
 interface DynamicFormGeneratorProps {
   surveyID: string;
