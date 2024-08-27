@@ -76,39 +76,27 @@ Object.defineProperty(exports, "__esModule", { value: true });
 var react_1 = __importStar(require("react"));
 var GroupRenderer_1 = __importDefault(require("../GroupRenderer"));
 require("../FormLayout.css");
-var axios_1 = __importDefault(require("axios"));
 var LayoutRenderer = function (_a) {
-    var _b = _a.layout, layout = _b === void 0 ? [] : _b, questions = _a.questions, handleChange = _a.handleChange, formData = _a.formData, setFormData = _a.setFormData, businessRules = _a.businessRules, redirectUrl = _a.redirectUrl, saveUrl = _a.saveUrl, participantID = _a.participantID, surveyID = _a.surveyID;
+    var _b = _a.layout, layout = _b === void 0 ? [] : _b, questions = _a.questions, handleChange = _a.handleChange, formData = _a.formData, setFormData = _a.setFormData, businessRules = _a.businessRules, redirectUrl = _a.redirectUrl, onSectionChange = _a.onSectionChange, onSave = _a.onSave;
     var _c = (0, react_1.useState)(0), currentSectionIndex = _c[0], setCurrentSectionIndex = _c[1];
     var _d = (0, react_1.useState)({}), errors = _d[0], setErrors = _d[1];
-    (0, react_1.useEffect)(function () {
-        var fetchExistingResponses = function () { return __awaiter(void 0, void 0, void 0, function () {
-            var response, error_1;
-            return __generator(this, function (_a) {
-                switch (_a.label) {
-                    case 0:
-                        _a.trys.push([0, 2, , 3]);
-                        return [4 /*yield*/, axios_1.default.get("http://localhost:3001/api/getFormData?participantID=".concat(participantID, "&surveyID=").concat(surveyID))];
-                    case 1:
-                        response = _a.sent();
-                        if (response.data && response.data.formData) {
-                            setFormData(response.data.formData);
-                        }
-                        return [3 /*break*/, 3];
-                    case 2:
-                        error_1 = _a.sent();
-                        // const localResponse = preprocessdata.responses.find((response: any)  => response.participantID === participantID && response.surveyID === surveyID);
-                        // if (localResponse) {
-                        //   setFormData(localResponse);
-                        // }
-                        console.error('Error fetching form data:', error_1);
-                        return [3 /*break*/, 3];
-                    case 3: return [2 /*return*/];
-                }
-            });
-        }); };
-        fetchExistingResponses();
-    }, [participantID, surveyID, setFormData]);
+    // useEffect(() => {
+    //   const fetchExistingResponses = async () => {
+    //     try {
+    //       const response = await axios.get(`http://localhost:3001/api/getFormData?participantID=${participantID}&surveyID=${surveyID}`);
+    //       if (response.data && response.data.formData) {
+    //         setFormData(response.data.formData);
+    //       }
+    //     } catch (error) {
+    //       // const localResponse = preprocessdata.responses.find((response: any)  => response.participantID === participantID && response.surveyID === surveyID);
+    //       // if (localResponse) {
+    //       //   setFormData(localResponse);
+    //       // }
+    //       console.error('Error fetching form data:', error);
+    //     }
+    //   };
+    //   fetchExistingResponses();
+    // }, [participantID, surveyID, setFormData]);
     var shouldDisplay = function (conditions) {
         if (!conditions || conditions.length === 0) {
             return true;
@@ -123,6 +111,12 @@ var LayoutRenderer = function (_a) {
             setErrors(newErrors);
         }
     };
+    (0, react_1.useEffect)(function () {
+        // Trigger the initial section change
+        if (layout[currentSectionIndex]) {
+            onSectionChange(layout[currentSectionIndex].section_title);
+        }
+    }, [currentSectionIndex, layout, onSectionChange]);
     var handleNext = function () {
         var newErrors = {};
         var currentSection = layout[currentSectionIndex];
@@ -147,6 +141,7 @@ var LayoutRenderer = function (_a) {
             }
             if (nextIndex < layout.length) {
                 setCurrentSectionIndex(nextIndex);
+                onSectionChange(layout[nextIndex].section_title);
             }
         }
     };
@@ -157,32 +152,14 @@ var LayoutRenderer = function (_a) {
         }
         if (prevIndex >= 0) {
             setCurrentSectionIndex(prevIndex);
+            onSectionChange(layout[prevIndex].section_title);
         }
     };
-    var handleSave = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var error_2;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    _a.trys.push([0, 2, , 3]);
-                    return [4 /*yield*/, axios_1.default.post(saveUrl, {
-                            formData: formData,
-                            participantID: participantID,
-                            surveyID: surveyID
-                        })];
-                case 1:
-                    _a.sent();
-                    return [3 /*break*/, 3];
-                case 2:
-                    error_2 = _a.sent();
-                    console.error('Error saving file:', error_2);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
-            }
-        });
-    }); };
+    var handleSave = function () {
+        // Simply pass the form data to the parent via the onSave callback
+        onSave(formData);
+    };
     var handleCancel = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var builtUrl;
         return __generator(this, function (_a) {
             try {
                 // await axios.post(saveUrl, {
@@ -191,8 +168,7 @@ var LayoutRenderer = function (_a) {
                 //   surveyID
                 // });
                 alert('You have canceled this survey');
-                builtUrl = redirectUrl.replace('[participantID]', participantID);
-                window.location.href = builtUrl;
+                window.location.href = redirectUrl;
             }
             catch (error) {
                 console.error('Error saving file:', error);
@@ -201,57 +177,29 @@ var LayoutRenderer = function (_a) {
             return [2 /*return*/];
         });
     }); };
-    var buildRedirectUrl = function () {
-        if (!participantID) {
-            return redirectUrl;
-        }
-        return redirectUrl.replace('[participantID]', participantID);
-    };
-    var handleSubmit = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var newErrors, error_3;
-        return __generator(this, function (_a) {
-            switch (_a.label) {
-                case 0:
-                    newErrors = {};
-                    layout.forEach(function (section) {
-                        section.groups.forEach(function (group) {
-                            group.rows.forEach(function (row) {
-                                row.columns.forEach(function (column) {
-                                    var question = questions.find(function (q) { return q.question_id === column.question_id; });
-                                    if (question && question.required && !formData[question.question_id]) {
-                                        newErrors[question.question_id] = 'This field is required';
-                                    }
-                                });
-                            });
-                        });
+    var handleSubmit = function () {
+        var newErrors = {};
+        layout.forEach(function (section) {
+            section.groups.forEach(function (group) {
+                group.rows.forEach(function (row) {
+                    row.columns.forEach(function (column) {
+                        var question = questions.find(function (q) { return q.question_id === column.question_id; });
+                        if (question && question.required && !formData[question.question_id]) {
+                            newErrors[question.question_id] = 'This field is required';
+                        }
                     });
-                    if (!(Object.keys(newErrors).length > 0)) return [3 /*break*/, 1];
-                    setErrors(newErrors);
-                    return [3 /*break*/, 5];
-                case 1:
-                    setErrors({});
-                    _a.label = 2;
-                case 2:
-                    _a.trys.push([2, 4, , 5]);
-                    return [4 /*yield*/, axios_1.default.post(saveUrl, {
-                            formData: formData,
-                            participantID: participantID,
-                            surveyID: surveyID
-                        })];
-                case 3:
-                    _a.sent();
-                    window.location.href = buildRedirectUrl();
-                    return [3 /*break*/, 5];
-                case 4:
-                    error_3 = _a.sent();
-                    console.error('Error saving file:', error_3);
-                    alert('Failed to save file. Please try again.');
-                    window.location.href = buildRedirectUrl();
-                    return [3 /*break*/, 5];
-                case 5: return [2 /*return*/];
-            }
+                });
+            });
         });
-    }); };
+        if (Object.keys(newErrors).length > 0) {
+            setErrors(newErrors);
+        }
+        else {
+            setErrors({});
+            // Send form data to the parent via onSubmit
+            onSave(formData);
+        }
+    };
     var currentSection = layout[currentSectionIndex];
     var isLastSection = function (index) {
         for (var i = index + 1; i < layout.length; i++) {

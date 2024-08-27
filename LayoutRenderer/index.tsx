@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import GroupRenderer from '../GroupRenderer';
 import '../FormLayout.css';
 import axios from 'axios';
-import preprocessdata from '../backenddata/surveys/responses.json'
 
 interface LayoutRendererProps {
   layout: any[];
@@ -12,9 +11,8 @@ interface LayoutRendererProps {
   setFormData: React.Dispatch<React.SetStateAction<any>>;
   businessRules: any[];
   redirectUrl: string;
-  saveUrl: string;
-  participantID: string;
-  surveyID: string;
+  onSectionChange: (sectionTitle: string) => void;  // Callback for section title change
+  onSave: (formData: any) => void; 
 }
 
 const LayoutRenderer: React.FC<LayoutRendererProps> = ({
@@ -25,31 +23,30 @@ const LayoutRenderer: React.FC<LayoutRendererProps> = ({
   setFormData,
   businessRules,
   redirectUrl,
-  saveUrl,
-  participantID,
-  surveyID
+  onSectionChange,
+  onSave
 }) => {
   const [currentSectionIndex, setCurrentSectionIndex] = useState(0);
   const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-  useEffect(() => {
-    const fetchExistingResponses = async () => {
-      try {
-        const response = await axios.get(`http://localhost:3001/api/getFormData?participantID=${participantID}&surveyID=${surveyID}`);
-        if (response.data && response.data.formData) {
-          setFormData(response.data.formData);
-        }
-      } catch (error) {
-        // const localResponse = preprocessdata.responses.find((response: any)  => response.participantID === participantID && response.surveyID === surveyID);
-        // if (localResponse) {
-        //   setFormData(localResponse);
-        // }
-        console.error('Error fetching form data:', error);
-      }
-    };
+  // useEffect(() => {
+  //   const fetchExistingResponses = async () => {
+  //     try {
+  //       const response = await axios.get(`http://localhost:3001/api/getFormData?participantID=${participantID}&surveyID=${surveyID}`);
+  //       if (response.data && response.data.formData) {
+  //         setFormData(response.data.formData);
+  //       }
+  //     } catch (error) {
+  //       // const localResponse = preprocessdata.responses.find((response: any)  => response.participantID === participantID && response.surveyID === surveyID);
+  //       // if (localResponse) {
+  //       //   setFormData(localResponse);
+  //       // }
+  //       console.error('Error fetching form data:', error);
+  //     }
+  //   };
 
-    fetchExistingResponses();
-  }, [participantID, surveyID, setFormData]);
+  //   fetchExistingResponses();
+  // }, [participantID, surveyID, setFormData]);
 
   const shouldDisplay = (conditions: { question_id: string, value: any }[] | undefined) => {
     if (!conditions || conditions.length === 0) {
@@ -66,6 +63,12 @@ const LayoutRenderer: React.FC<LayoutRendererProps> = ({
       setErrors(newErrors);
     }
   };
+  useEffect(() => {
+    // Trigger the initial section change
+    if (layout[currentSectionIndex]) {
+      onSectionChange(layout[currentSectionIndex].section_title);
+    }
+  }, [currentSectionIndex, layout, onSectionChange]);
 
   const handleNext = () => {
     const newErrors: { [key: string]: string } = {};
@@ -81,7 +84,7 @@ const LayoutRenderer: React.FC<LayoutRendererProps> = ({
     //     });
     //   });
     // });
-
+    
     if (Object.keys(newErrors).length > 0) {
       setErrors(newErrors);
     } else {
@@ -92,6 +95,9 @@ const LayoutRenderer: React.FC<LayoutRendererProps> = ({
       }
       if (nextIndex < layout.length) {
         setCurrentSectionIndex(nextIndex);
+        onSectionChange(layout[nextIndex].section_title); 
+        
+        
       }
     }
   };
@@ -103,23 +109,16 @@ const LayoutRenderer: React.FC<LayoutRendererProps> = ({
     }
     if (prevIndex >= 0) {
       setCurrentSectionIndex(prevIndex);
+      onSectionChange(layout[prevIndex].section_title);
     }
   };
 
-  const handleSave = async () => {
-    try {
-      await axios.post(saveUrl, {
-        formData,
-        participantID,
-        surveyID
-      });
-      //alert('Data saved successfully.');
-    } catch (error) {
-      console.error('Error saving file:', error);
-      //alert('Failed to save file. Please try again.');
-    }
+  const handleSave = () => {
+    // Simply pass the form data to the parent via the onSave callback
+    onSave(formData);
   };
 
+  
   const handleCancel = async () => {
     try {
       // await axios.post(saveUrl, {
@@ -128,22 +127,15 @@ const LayoutRenderer: React.FC<LayoutRendererProps> = ({
       //   surveyID
       // });
       alert('You have canceled this survey');
-      const builtUrl = redirectUrl.replace('[participantID]', participantID);
-      window.location.href = builtUrl;
+
+      window.location.href = redirectUrl;
     } catch (error) {
       console.error('Error saving file:', error);
       alert('Failed to save file. Please try again.');
     }
   };
 
-  const buildRedirectUrl = () => {
-    if (!participantID) {
-      return redirectUrl;
-    }
-    return redirectUrl.replace('[participantID]', participantID);
-  };
-
-  const handleSubmit = async () => {
+  const handleSubmit = () => {
     const newErrors: { [key: string]: string } = {};
 
     layout.forEach((section: any) => {
@@ -163,20 +155,12 @@ const LayoutRenderer: React.FC<LayoutRendererProps> = ({
       setErrors(newErrors);
     } else {
       setErrors({});
-      try {
-        await axios.post(saveUrl, {
-          formData,
-          participantID,
-          surveyID
-        });
-        window.location.href = buildRedirectUrl();
-      } catch (error) {
-        console.error('Error saving file:', error);
-        alert('Failed to save file. Please try again.');
-        window.location.href = buildRedirectUrl();
-      }
+      // Send form data to the parent via onSubmit
+      onSave(formData);
     }
   };
+
+
 
   const currentSection = layout[currentSectionIndex];
 

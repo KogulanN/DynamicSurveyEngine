@@ -8,9 +8,8 @@ interface LayoutRendererProps {
     setFormData: React.Dispatch<React.SetStateAction<any>>;
     businessRules: any[];
     redirectUrl: string;
-    saveUrl: string;
-    participantID: string;
-    surveyID: string;
+    onSectionChange: (sectionTitle: string) => void;
+    onSave: (formData: any) => void;
 }
 declare const LayoutRenderer: React.FC<LayoutRendererProps>;
 export default LayoutRenderer;

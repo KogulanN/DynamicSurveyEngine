@@ -1,77 +1,37 @@
-//ts-ignore
-
 import React, { useEffect, useState } from 'react';
 import LayoutRenderer from './LayoutRenderer';
 import BusinessRuleHandler from './BusinessRuleHandler';
-import axios from 'axios';
-import data from './dist/backenddata/surveys/surveys.json';
 
 interface DynamicFormGeneratorProps {
-  surveyID: string;
-  participantID: string;
-  Urls: string[];
-  
+  surveyData: any;
+  formData: any;
+  redirectUrl: string
+  onSectionChange: (sectionTitle: string) => void;  // Callback for section title change
+  onSave: (formData: any) => void;  // Callback for saving form data
 }
 
-const DynamicFormGenerator: React.FC<DynamicFormGeneratorProps> = ({ surveyID, participantID, Urls }) => {
-  const [surveyData, setSurveyData] = useState<any>(null);
-  const [formData, setFormData] = useState<any>({});
+const DynamicFormGenerator: React.FC<DynamicFormGeneratorProps> = ({ surveyData, formData, onSectionChange, onSave, redirectUrl }) => {
+  const [localSurveyData, setLocalSurveyData] = useState<any>(surveyData);
+  const [localFormData, setLocalFormData] = useState<any>(formData);
 
   useEffect(() => {
-    console.log("Dynamic form")
-    const fetchSurveyData = async () => {
-      try {
-        // look at this we need to read the data in the local folder. here with the url:
-        const response = await axios.get(Urls[0], {
-          headers: { Authorization: `Bearer ${process.env.BLOB_READ_WRITE_TOKEN}` }
-          
-          
-        });
-        if (response.data) {
-          console.log("Response:",response.data)
-          setSurveyData(response.data);
-        }
-      } catch (error) {
-        console.error('Error fetching survey data:', error);
-        const localSurvey = data.surveys.find((survey: any) => survey.surveyID === surveyID);
-        if (localSurvey) {
-          setSurveyData(localSurvey);
-        }
-      }
-    };
-
-    const fetchFormData = async () => {
-      try {
-        const response = await axios.get(Urls[1], {
-          params: { participantID, surveyID }
-        });
-        if (response.data) {
-          setFormData(response.data.formData);
-        }
-      } catch (error) {
-        console.error('Error fetching form data:', error);
-      }
-    };
-
-    fetchSurveyData();
-    fetchFormData();
-  }, [surveyID, participantID]);
+    setLocalSurveyData(surveyData);
+    setLocalFormData(formData);
+  }, [surveyData, formData]);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData((prevState: any) => ({
+    setLocalFormData((prevState: any) => ({
       ...prevState,
       [name]: value,
     }));
   };
 
-  if (!surveyData) {
-    //setSurveyData(data.surveys.find(surveyID));
-    console.log("Error:",surveyID,participantID,Urls,data)
+  if (!localSurveyData) {
     return <div>Survey Loading...</div>;
   }
 
-  const { sections, questions, businessRules, redirectUrl, saveUrl } = surveyData;
+  const { sections, questions, businessRules } = localSurveyData;
 
   return (
     <div className="dynamic-form-generator">
@@ -79,16 +39,18 @@ const DynamicFormGenerator: React.FC<DynamicFormGeneratorProps> = ({ surveyID, p
         layout={sections}
         questions={questions}
         handleChange={handleChange}
-        formData={formData}
-        setFormData={setFormData}
-        businessRules={businessRules}
+        formData={localFormData}
+        setFormData={setLocalFormData}
         redirectUrl={redirectUrl}
-        saveUrl={saveUrl}
-        participantID={participantID}
-        surveyID={surveyID}
-        
+        businessRules={businessRules}
+        onSectionChange={onSectionChange}  // Pass the callback for section title change
+        onSave={onSave}  // Pass the callback for saving form data
       />
-      <BusinessRuleHandler formData={formData} businessRules={businessRules} setFormData={setFormData} />
+      <BusinessRuleHandler
+        formData={localFormData}
+        businessRules={businessRules}
+        setFormData={setLocalFormData}
+      />
     </div>
   );
 };

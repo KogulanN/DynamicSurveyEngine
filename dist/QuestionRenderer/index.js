@@ -97,11 +97,10 @@ var QuestionRenderer = function (_a) {
                 }
                 return acc + (isConditionMet ? 1 : 0);
             }, 0);
-            console.log("Count", count);
             return count >= 3 ? 'DPPSCRSEC03Q006' : 'DPPSCRSEC03Q007'; // Returns the question ID to show
         }
         var result = evaluateEligibility(formData);
-        console.log("result", result);
+        // console.log("result",result)
         setVisible(result === question.question_id);
     }, [dependencies, formData, question]);
     // useEffect(() => {
@@ -298,7 +297,7 @@ var QuestionRenderer = function (_a) {
                         return '45%';
                     }
                 };
-                return (react_1.default.createElement("input", { className: "form-input", type: "date", name: question.question_id, value: value, style: { maxWidth: getMaxWidth() }, onChange: handleNumberOnlyChange }));
+                return (react_1.default.createElement("input", { className: "form-input", type: "date", name: question.question_id, value: value, style: { maxWidth: getMaxWidth() }, onChange: handleChange }));
             case 'time':
                 return (react_1.default.createElement("input", { className: "form-input", type: "time", name: question.question_id, value: value, onChange: handleNumberOnlyChange, style: { width: inputWidth, minWidth: inputMinWidth } }));
             case 'select':

@@ -6,7 +6,6 @@ import "../FormLayout.css";
 import moment from 'moment';
 import { FaCheck, FaTimes } from 'react-icons/fa';
 import 'react-pdf/dist/esm/Page/AnnotationLayer.css'; // PDF Viewer styles
-import BusinessRuleHandler from '../BusinessRuleHandler';
 
 
 
@@ -370,7 +369,7 @@ const QuestionRenderer: React.FC<QuestionRendererProps> = ({ question, question_
               name={question.question_id}
               value={value}
               style={{ maxWidth: getMaxWidth() }}
-              onChange={handleNumberOnlyChange}
+              onChange={handleChange}
             />
           );
         
